@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta http-equiv="P3P" content="CP=\"IDC DSP COR CURa ADMa OUR IND PHY ONL COM STA\"" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{=response.title or URL()}}</title>
+        {{
+        response.files.append(URL('static','css/bootstrap.min.css'))
+        response.files.append(URL('static','css/bootstrap_essentials.css'))
+        response.files.append(URL('static','css/bootstrap-responsive.min.css'))
+        }}
+        {{include 'web2py_ajax.html'}}
+
+        <!-- CSS goes in the document HEAD or added to your external stylesheet -->
+        <style type="text/css">
+        table.altrowstable {
+            font-family: verdana,arial,sans-serif;
+            font-size:11px;
+            color:#333333;
+            border-width: 1px;
+            border-color: #a9c6c9;
+            border-collapse: collapse;
+            width: 100%;
+            text-align: center;
+        }
+        table.altrowstable th {
+            border-width: 1px;
+            padding: 8px;
+            border-style: solid;
+            border-color: #a9c6c9;
+        }
+        table.altrowstable td {
+            border-width: 1px;
+            padding: 8px;
+            border-style: solid;
+            border-color: #a9c6c9;
+        }
+        .oddrowcolor{
+            background-color:#d4e3e5;
+        }
+        .evenrowcolor{
+            background-color:#c3dde0;
+        }
+        .toolbar{
+            padding: 5px 0;
+            margin-bottom: 5px;
+            border-bottom: solid 1px lightgray;
+        }
+        </style>
+    </head>
+
+    <body class="{{=T('direction: ltr') == 'direction: rtl' and 'RTLbody' or ''}} {{block sectionclass}}home{{end}}">
+
+        <!-- NAVBAR
+        ============== -->
+        <div id="header" class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container-fluid">
+                    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <div id="start" class="brand_wrapper">
+                        <a href="javascirpt:;" class="button brand" ><span>{{=response.title}}</span></a>
+                    </div>
+                    <div class="nav-collapse">
+                        {{if response.menu is not None:}}
+                        <ul id="menu" class="nav pull-right">
+                            {{for _name,_active,_link in response.menu:}}
+                            <li>{{=A(SPAN(_name), _href=_link, _class=_active and 'button select' or 'button')}}</li>
+                            {{pass}}
+                        </ul>
+                        {{pass}}
+                    </div><!--/.nav-collapse -->
+                </div><!-- /container-fluid -->
+            </div><!-- /navbar-inner -->
+        </div><!-- /#header -->
+
+        <!-- MAIN
+        =========== -->
+            <div id="{{=globals().get('main_id', 'main')}}" class="container-fluid">
+                <div id="main_inner" class="row-fluid">
+                    <div class="span12">
+                        <div class="w2p_flash alert">{{=response.flash or ''}}</div>
+                        {{include}}
+                    </div><!-- /main span12 -->
+                </div><!-- /main row-fluid -->
+            </div><!-- /#main -->
+
+        <!-- FOOTER
+        ============== -->
+        {{block footer}}
+        <footer id="footer" class="fixed">
+            <p><span>{{=T('Powered by')}} {{=A('web2py', _href='http://www.web2py.com')}}&trade; &copy;2007-{{=request.now.year}}</span>
+            </p>
+        </footer><!-- /#footer -->
+        {{end}}
+
+        <!-- BS JAVASCRIPT
+        ====================== -->
+        <script src="{{=URL('static','js/bootstrap.min.js')}}"></script>
+        <script src="{{=URL('static','lhgdialog/lhgdialog.min.js')}}"
+        <script type="text/javascript">
+            jQuery(document).ready(function(){
+                jQuery("[rel=tooltip]").tooltip();
+                jQuery(":input").attr("autocomplete","off");
+            });
+            $.fn.serializeObject = function()
+            {
+               var o = {};
+               var a = this.serializeArray();
+               $.each(a, function() {
+                   if (o[this.name]) {
+                       if (!o[this.name].push) {
+                           o[this.name] = [o[this.name]];
+                       }
+                       o[this.name].push(this.value || '');
+                   } else {
+                       o[this.name] = this.value || '';
+                   }
+               });
+               return o;
+            };
+        </script>
+        <script type="text/javascript">
+         jQuery(document).ready(function(){
+            var table = jQuery('table.altrowstable');
+            var rows = table.find("tr");
+
+            for(i = 0; i < rows.length; i++){
+                if(i % 2 == 0){
+                    rows.eq(i).addClass("evenrowcolor");
+                }else{
+                    rows.eq(i).addClass("oddrowcolor");
+                }
+            }
+         });
+        </script>
+
+        <script>
+            // ====================
+            // upload input mask
+            // ====================
+
+            function FileSelectHandler(e) {
+                e.stopPropagation();
+                var filename = e.target.value.split(/\\|\//).pop();
+                jQuery('#fileselect>span').removeClass('txtPlaceholder').text(filename)
+            }
+
+            jQuery(document).ready(function(){
+                var iupload = jQuery('#appupdate_file');
+                var ow = 300, oh = 20;
+                var iplaceholder = jQuery('<span class="txtPlaceholder">{{=T("no package selected")}}</span>'),
+                    iuploadbtn = jQuery('<button class="btn btn-inverse btn-mini uploadbtn"><i class="icon-white icon-circle-arrow-up"></i></button>');
+                iupload
+                    .addClass('masked')
+                    .wrap('<div id="fileselect" style="width:'+ow+'px;height:'+oh+'px"></div>')
+                    .on('change', function(event){FileSelectHandler(event)});
+                jQuery('#fileselect').append(iplaceholder, iuploadbtn);
+            });
+        </script>
+    </body>
+</html>
