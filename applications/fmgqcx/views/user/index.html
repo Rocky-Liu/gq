@@ -19,7 +19,8 @@
             <td>{{=user.identity_card}}</td>
             <td>
                 <a href="{{=URL('edit', args=[user.id])}}">修改</a>
-                <a id="del_user" href="{{=URL('delete', args=[user.id])}}">删除</a>
+                <a href="{{=URL('reset', args=[user.id])}}">重置密码</a>
+                <a class="del_user" href="{{=URL('delete', args=[user.id])}}">删除</a>
             </td>
         </tr>
         {{pass}}
@@ -34,7 +35,7 @@
 </table>
 <script>
 $(function(){
-    $('#del_user').click(function(e){
+    $('a.del_user').click(function(e){
         var $this = $(this);
         $.dialog.confirm('您确认要删除吗？', function(){
             location.href=$this.attr('href');

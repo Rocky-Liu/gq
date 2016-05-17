@@ -9,6 +9,19 @@ db.define_table('gq',
 	Field('user_id', 'integer', notnull=True),
 	Field('date', 'date')
 )
+db.define_table('notice',
+            Field('title', 'string', length=128),
+            Field('pub_time', 'datetime'),
+            Field('content', 'string'),
+            Field('user_id', 'integer')
+)
+db.define_table('message',
+            Field('user_id', 'integer'),
+            Field('pub_time', 'datetime'),
+            Field('content', 'string'))
+db.define_table('attachment',
+                Field('attachment', 'upload')
+                )
 from gluon.tools import *
 auth=Auth(db)
 auth.settings.extra_fields['auth_user']= [

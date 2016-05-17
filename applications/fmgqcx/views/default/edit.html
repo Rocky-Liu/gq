@@ -1,0 +1,73 @@
+{{extend 'layout.html'}}
+<div class="container-fluid">
+    <h3>修改数据</h3>
+    {{=form.custom.begin}}
+    <div class="form-group">
+    <label for="user_id" class="col-sm-2 control-label">用户：</label>
+    <div class="col-sm-10">
+        <select class="form-control" id="user_id" name="user_id">
+            <option value="">请选择用户</option>
+            {{for user in user_list:}}
+            <option value="{{=user.id}}" {{="selected" if user.id==record.user_id else ""}}>{{=user.last_name+user.first_name}}</option>
+            {{pass}}
+        </select>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label" for="date">日期：</label>
+      <div class="col-sm-5">
+        <input type="text" class="form-control" id="date" name="date" onClick="WdatePicker()" value="{{=record.date}}"/>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label" for="no">微商代号：</label>
+      <div class="col-sm-5">
+        <input type="text" class="form-control" id="no" name="no" value="{{=record.no}}"/>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label" for="invest_type">投资类型：</label>
+      <div class="col-sm-5">
+        <input type="text" class="form-control" id="invest_type" name="invest_type" value="{{=record.invest_type}}"/>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label" for="regist_share">注册配股：</label>
+      <div class="col-sm-5">
+        <input class="form-control" id="regist_share" name="regist_share" type="text" value="{{=record.regist_share}}"/>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label" for="balance_share">产品余额配股：</label>
+      <div class="col-sm-5">
+        <input class="form-control" id="balance_share" name="balance_share" type="text" value="{{=record.balance_share}}"/>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label" for="dividend_share">分红配股：</label>
+      <div class="col-sm-5">
+        <input class="form-control" id="dividend_share" name="dividend_share" type="text" value="{{=record.dividend_share}}"/>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label" for="bonus_share">奖金配股：</label>
+      <div class="col-sm-5">
+        <input class="form-control" id="bonus_share" name="bonus_share" type="text" value="{{=record.bonus_share}}"/>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-md-offset-2 col-md-10">
+        <button type="submit" class="btn btn-primary btn-sm">提交</button>
+        <button type="reset" class="btn btn-primary btn-sm">重置</button>
+      </div>
+    </div>
+    {{=form.custom.end}}
+</div>
+<script>
+$(function(){
+    $('#sure').click(function(e){
+        e.preventDefault();
+        var flag = true;
+        var content;
+    })
+});
+</script>

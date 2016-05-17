@@ -1,0 +1,51 @@
+{{extend 'layout.html'}}
+{{if is_admin:}}
+<div class="toolbar">
+<a href="{{=URL('add')}}"><button type="button" class="btn btn-default">新建</button></a>
+</div>
+{{pass}}
+<table class="altrowstable">
+    <thead>
+        <tr>
+            <th>标题</th>
+            <th>发布时间</th>
+            <th>发布人</th>
+            {{if is_admin:}}
+            <th>操作</th>
+            {{pass}}
+        </tr>
+    </thead>
+    <tbody>
+        {{for row in rows:}}
+        <tr>
+            <td><a href="{{=URL('show', args=[row.notice.id])}}">{{=row.notice.title}}</a></td>
+            <td>{{=row.notice.pub_time}}</td>
+            <td>{{=row.auth_user.last_name+row.auth_user.first_name}}</td>
+            {{if is_admin:}}
+            <td>
+                <a href="{{=URL('edit', args=[row.notice.id])}}">修改</a>
+                <a class="del_gq" href="{{=URL('delete', args=[row.notice.id])}}">删除</a>
+            </td>
+            {{pass}}
+        </tr>
+        {{pass}}
+        {{if len(rows) == 0:}}
+        <tr>
+            <td colspan="12">
+                暂无数据
+            </td>
+        </tr>
+        {{pass}}
+    </tbody>
+</table>
+<script>
+$(function(){
+    $('a.del_gq').click(function(e){
+        var $this = $(this);
+        $.dialog.confirm('您确认要删除吗？', function(){
+            location.href=$this.attr('href');
+        });
+        return false;
+    });
+});
+</script>

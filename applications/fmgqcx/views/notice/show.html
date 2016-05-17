@@ -1,0 +1,11 @@
+{{extend 'layout.html'}}
+<div style="text-align: center;font-size: 18px;">
+{{=result.notice.title}}
+</div>
+<div style="text-align: right;font-size: 12px;color:#aaaaaa;">
+<span>发布时间：{{=result.notice.pub_time}}</span>
+<span style="margin-left: 10px;">发布人：{{=result.auth_user.last_name+result.auth_user.first_name}}</span>
+</div>
+<div>
+{{=XML(result.notice.content)}}
+</div>

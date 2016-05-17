@@ -1,1 +1,73 @@
 {{extend 'layout.html'}}
+<div class="toolbar">
+<a href="{{=URL('add')}}"><button type="button" class="btn btn-default">新建</button></a>
+</div>
+<table class="altrowstable">
+    <thead>
+        <tr>
+            <th>日期</th>
+            <th>姓名</th>
+            <th>身份证</th>
+            <th>电话</th>
+            <th>微商代号</th>
+            <th>投资类型</th>
+            <th>注册配股</th>
+            <th>产品余额配股</th>
+            <th>分红配股</th>
+            <th>奖金配股</th>
+            <th>合计</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{for row in rows:}}
+        <tr>
+            <td>{{=row.gq.date}}</td>
+            <td>{{=row.auth_user.last_name+row.auth_user.first_name}}</td>
+            <td>{{=row.auth_user.identity_card}}</td>
+            <td>{{=row.auth_user.username}}</td>
+            <td>{{=row.gq.no}}</td>
+            <td>{{=row.gq.invest_type}}</td>
+            <td>{{=row.gq.regist_share}}</td>
+            <td>{{=row.gq.balance_share}}</td>
+            <td>{{=row.gq.dividend_share}}</td>
+            <td>{{=row.gq.bonus_share}}</td>
+            <td>{{=row.gq.regist_share + row.gq.balance_share + row.gq.dividend_share + row.gq.bonus_share }}</td>
+            <td>
+                <a href="{{=URL('edit', args=[row.gq.id])}}">修改</a>
+                <a class="del_gq" href="{{=URL('delete', args=[row.gq.id])}}">删除</a>
+            </td>
+        </tr>
+        {{pass}}
+        {{if len(rows) == 0:}}
+        <tr>
+            <td colspan="12">
+                暂无数据
+            </td>
+        </tr>
+        {{else:}}
+        <tr>
+            <td colspan="6">
+                合计
+            </td>
+            <td>{{=regist_total}}</td>
+            <td>{{=balance_total}}</td>
+            <td>{{=dividend_total}}</td>
+            <td>{{=bonus_total}}</td>
+            <td>{{=regist_total+balance_total+dividend_total+bonus_total}}</td>
+            <td></td>
+        </tr>
+        {{pass}}
+    </tbody>
+</table>
+<script>
+$(function(){
+    $('a.del_gq').click(function(e){
+        var $this = $(this);
+        $.dialog.confirm('您确认要删除吗？', function(){
+            location.href=$this.attr('href');
+        });
+        return false;
+    });
+});
+</script>

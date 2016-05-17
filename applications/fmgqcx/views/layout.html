@@ -15,6 +15,9 @@
 
         <!-- CSS goes in the document HEAD or added to your external stylesheet -->
         <style type="text/css">
+        a.select{
+            color:white !important;
+        }
         table.altrowstable {
             font-family: verdana,arial,sans-serif;
             font-size:11px;
@@ -72,6 +75,9 @@
                             {{for _name,_active,_link in response.menu:}}
                             <li>{{=A(SPAN(_name), _href=_link, _class=_active and 'button select' or 'button')}}</li>
                             {{pass}}
+                            {{if session.authorized:}}
+                            <li>{{=A(SPAN(session.auth.user.username), _href="javascript:;", _class='button')}}</li>
+                            {{pass}}
                         </ul>
                         {{pass}}
                     </div><!--/.nav-collapse -->
@@ -102,7 +108,8 @@
         <!-- BS JAVASCRIPT
         ====================== -->
         <script src="{{=URL('static','js/bootstrap.min.js')}}"></script>
-        <script src="{{=URL('static','lhgdialog/lhgdialog.min.js')}}"
+        <script src="{{=URL('static','lhgdialog/lhgdialog.min.js')}}"></script>
+        <script src="{{=URL('static','My97DatePicker/WdatePicker.js')}}"></script>
         <script type="text/javascript">
             jQuery(document).ready(function(){
                 jQuery("[rel=tooltip]").tooltip();

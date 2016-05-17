@@ -9,8 +9,17 @@ def index():
                                                             db.auth_user.identity_card)
     return dict(user_list = user_list)
 
+@auth.requires_login()
 def me():
-    pass
+    record = db(db.auth_user.id == session.auth.user.id).select().first()
+    form = SQLFORM(db.auth_user, record, fields = ['password'])
+    form.vars.password = db.auth_user.password.validate(form.vars.password)[0]
+    if form.process(session=None, formname='form_edit').accepted:
+        session.flash = '修改成功'
+        redirect(URL('default', 'my'))
+    elif form.errors:
+        response.flash = '表单验证失败'
+    return dict(form = form, record = record)
 
 @auth.requires_login()
 def add():
@@ -36,8 +45,8 @@ def delete():
         session.flash = '删除失败'
     else:
         session.flash = '删除成功'
-        
-    redirect(URL('index'))        
+
+    redirect(URL('index'))
 
 @auth.requires_login()
 def edit():
@@ -54,6 +63,7 @@ def edit():
         response.flash = '表单验证失败'
     return dict(form = form, record = record)
 
+@auth.requires_login()
 def reset():
     if session.auth.user.username <> 'admin':
         raise HTTP(404)
@@ -67,4 +77,3 @@ def reset():
     elif form.errors:
         response.flash = '表单验证失败'
     return dict(form = form, record = record)
-

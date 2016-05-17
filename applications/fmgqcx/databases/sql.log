@@ -75,3 +75,29 @@ CREATE TABLE auth_cas(
     PRIMARY KEY (id)
 ) ENGINE=InnoDB CHARACTER SET utf8;
 success!
+timestamp: 2016-05-17T22:10:10.831000
+CREATE TABLE notice(
+    id INT AUTO_INCREMENT NOT NULL,
+    title VARCHAR(128),
+    pub_time DATETIME,
+    content VARCHAR(512),
+    user_id INT,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2016-05-17T22:10:11.024000
+CREATE TABLE message(
+    id INT AUTO_INCREMENT NOT NULL,
+    user_id INT,
+    pub_time DATETIME,
+    content VARCHAR(512),
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2016-05-17T22:59:21.794000
+CREATE TABLE attachment(
+    id INT AUTO_INCREMENT NOT NULL,
+    attachment VARCHAR(512),
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!

@@ -1,0 +1,49 @@
+{{
+response.files.append(URL('static','simeditor/styles/font-awesome.css'))
+response.files.append(URL('static','simeditor/styles/simditor.css'))
+response.files.append(URL('static','simeditor/scripts/module.js'))
+response.files.append(URL('static','simeditor/scripts/hotkeys.js'))
+response.files.append(URL('static','simeditor/scripts/uploader.js'))
+response.files.append(URL('static','simeditor/scripts/simditor.js'))
+}}
+{{extend 'layout.html'}}
+<div class="container-fluid">
+    <h3>添加公告</h3>
+    {{=form.custom.begin}}
+    <div class="form-group">
+    <label for="title" class="col-sm-2 control-label">标题：</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="title" name="title"
+        placeholder="请输入标题" value="{{=record.title}}"／>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label" for="content">内容：</label>
+      <div class="col-sm-5">
+        <textarea id="content" name="content">{{=record.content}}</textarea>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-md-offset-2 col-md-10">
+        <button type="submit" class="btn btn-primary btn-sm">提交</button>
+        <button type="reset" class="btn btn-primary btn-sm">重置</button>
+      </div>
+    </div>
+    {{=form.custom.end}}
+</div>
+<script>
+$(function(){
+    $('#sure').click(function(e){
+        e.preventDefault();
+        var flag = true;
+        var content;
+    })
+    var formName=[];
+    formName["_formname"]=["attachment"]
+    var editor = new Simditor({
+        textarea: $('#content'),
+        toolbar: ['title', 'bold', 'color','italic', 'underline', 'strikethrough', '|', 'ol', 'ul',  'table', '|', 'link', 'image', 'hr', '|', 'indent', 'outdent','alignment'],
+        toolbarHidden:false,
+        upload:{url:"{{=URL('default','add_attachment.json')}}",params:formName,fileKey:"attachment"},
+    });
+});
+</script>

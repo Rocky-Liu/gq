@@ -1,0 +1,63 @@
+{{extend 'layout.html'}}
+<div class="toolbar">
+<span>用户名：{{=user.username}}</span>
+<span style="margin-left: 10px;">姓名：{{=user.last_name+user.first_name}}</span>
+<span style="margin-left: 10px;">身份证号：{{=user.identity_card}}</span>
+</div>
+<table class="altrowstable">
+    <thead>
+        <tr>
+            <th>日期</th>
+            <th>微商代号</th>
+            <th>投资类型</th>
+            <th>注册配股</th>
+            <th>产品余额配股</th>
+            <th>分红配股</th>
+            <th>奖金配股</th>
+            <th>合计</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{for row in rows:}}
+        <tr>
+            <td>{{=row.date}}</td>
+            <td>{{=row.no}}</td>
+            <td>{{=row.invest_type}}</td>
+            <td>{{=row.regist_share}}</td>
+            <td>{{=row.balance_share}}</td>
+            <td>{{=row.dividend_share}}</td>
+            <td>{{=row.bonus_share}}</td>
+            <td>{{=row.regist_share + row.balance_share + row.dividend_share + row.bonus_share }}</td>
+        </tr>
+        {{pass}}
+        {{if len(rows) == 0:}}
+        <tr>
+            <td colspan="9">
+                暂无数据
+            </td>
+        </tr>
+        {{else:}}
+        <tr>
+            <td colspan="3">
+                合计
+            </td>
+            <td>{{=regist_total}}</td>
+            <td>{{=balance_total}}</td>
+            <td>{{=dividend_total}}</td>
+            <td>{{=bonus_total}}</td>
+            <td>{{=regist_total+balance_total+dividend_total+bonus_total}}</td>
+        </tr>
+        {{pass}}
+    </tbody>
+</table>
+<script>
+$(function(){
+    $('a.del_gq').click(function(e){
+        var $this = $(this);
+        $.dialog.confirm('您确认要删除吗？', function(){
+            location.href=$this.attr('href');
+        });
+        return false;
+    });
+});
+</script>

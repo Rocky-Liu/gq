@@ -1,0 +1,67 @@
+{{
+response.files.append(URL('static','simeditor/styles/font-awesome.css'))
+response.files.append(URL('static','simeditor/styles/simditor.css'))
+response.files.append(URL('static','simeditor/scripts/module.js'))
+response.files.append(URL('static','simeditor/scripts/hotkeys.js'))
+response.files.append(URL('static','simeditor/scripts/uploader.js'))
+response.files.append(URL('static','simeditor/scripts/simditor.js'))
+}}
+{{extend 'layout.html'}}
+<div class="toolbar">
+<h3>留言板</h3>
+</div>
+{{for row in rows:}}
+<div style="margin:5px 0; padding: 5px;border:1px solid #999999;border-radius: 5px;">
+    <div style="border-bottom: 1px solid #cccccc">
+    {{=row.auth_user.last_name+row.auth_user.first_name}}于{{=row.message.pub_time}}发表：
+    {{if is_admin:}}
+    <a class="del_msg" href="{{=URL('delete', args=[row.message.id])}}" style="float: right;">删除</a>
+    {{pass}}
+    </div>
+    <p>
+    {{=XML(row.message.content)}}
+    </p>
+</div>
+{{pass}}
+<div style="margin:5px 0;padding:5px;border:1px solid #999999;border-radius: 5px;">
+<form role="form" action="{{=URL('add')}}" method="post">
+    <div class="form-group">
+      <label class="col-sm-2 control-label" for="content">留言：</label>
+      <div class="col-sm-5">
+        <textarea id="content" name="content"></textarea>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-md-offset-2 col-md-10">
+        <button type="submit" class="btn btn-primary btn-sm">提交</button>
+        <button type="reset" class="btn btn-primary btn-sm">重置</button>
+      </div>
+    </div>
+    <input type="hidden" name="_formname" value="form_add"/>
+</form>
+</div>
+<script>
+$(function(){
+    $('#sure').click(function(e){
+        e.preventDefault();
+        var flag = true;
+        var content;
+    })
+    $('a.del_msg').click(function(e){
+        var $this = $(this);
+        $.dialog.confirm('您确认要删除吗？', function(){
+            location.href=$this.attr('href');
+        });
+        return false;
+    });
+
+    var formName=[];
+    formName["_formname"]=["attachment"]
+    var editor = new Simditor({
+        textarea: $('#content'),
+        toolbar: ['bold', 'color','italic', 'underline', 'strikethrough', '|', 'ol', 'ul', '|', 'link', 'hr', '|', 'indent', 'outdent','alignment'],
+        toolbarHidden:false,
+        upload:{url:"{{=URL('default','add_attachment.json')}}",params:formName,fileKey:"attachment"},
+    });
+});
+</script>
