@@ -49,10 +49,19 @@
 </div>
 <script>
 $(function(){
-    $('#sure').click(function(e){
-        e.preventDefault();
-        var flag = true;
-        var content;
-    })
+    $('form').validate({
+    errorElement : 'span',
+    rules:{
+     password:{
+        required:true,
+        minlength:6
+      },
+      confirm_password:{
+        required:true,
+        minlength:6,
+        equalTo:"#password"
+      }
+    }
+  });
 });
 </script>

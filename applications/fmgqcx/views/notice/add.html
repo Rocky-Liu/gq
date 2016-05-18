@@ -32,11 +32,13 @@ response.files.append(URL('static','simeditor/scripts/simditor.js'))
 </div>
 <script>
 $(function(){
-    $('#sure').click(function(e){
-        e.preventDefault();
-        var flag = true;
-        var content;
-    })
+    $('form').validate({
+        errorElement : 'span',
+        rules:{
+            title:"required",
+            content:"required"
+        }
+    });
     var formName=[];
     formName["_formname"]=["attachment"]
     var editor = new Simditor({

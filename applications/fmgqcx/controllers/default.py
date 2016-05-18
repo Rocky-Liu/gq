@@ -13,7 +13,8 @@ def index():
         db.auth_user.username,
         db.auth_user.first_name,
         db.auth_user.last_name,
-        db.auth_user.identity_card)
+        db.auth_user.identity_card,
+        orderby = ~db.gq.date|~db.gq.id)
     regist_total,balance_total,dividend_total,bonus_total=0,0,0,0
     for row in result:
         regist_total += row.gq.regist_share
@@ -77,7 +78,7 @@ def delete():
 @auth.requires_login()
 def my():
     user = session.auth.user
-    rows = db(db.gq.user_id == user.id).select()
+    rows = db(db.gq.user_id == user.id).select(orderby=~db.gq.id)
     regist_total,balance_total,dividend_total,bonus_total=0,0,0,0
     for row in rows:
         regist_total += row.regist_share

@@ -6,7 +6,8 @@ def index():
                                                             db.auth_user.username,
                                                             db.auth_user.first_name,
                                                             db.auth_user.last_name,
-                                                            db.auth_user.identity_card)
+                                                            db.auth_user.identity_card,
+                                                            orderby=~db.auth_user.id)
     return dict(user_list = user_list)
 
 @auth.requires_login()

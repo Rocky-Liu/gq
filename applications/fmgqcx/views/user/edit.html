@@ -37,10 +37,20 @@
 </div>
 <script>
 $(function(){
-	$('#sure').click(function(e){
-		e.preventDefault();
-		var flag = true;
-		var content;
-	})
+	$('form').validate({
+    errorElement : 'span',
+    rules:{
+      username:{
+        required:true,
+        isMobile:true
+      },
+      last_name:"required",
+      first_name:"required",
+      identity_card:{
+        required:true,
+        isIdCardNo:true
+      }
+    }
+  });
 });
 </script>

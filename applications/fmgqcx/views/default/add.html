@@ -64,10 +64,30 @@
 </div>
 <script>
 $(function(){
-    $('#sure').click(function(e){
-        e.preventDefault();
-        var flag = true;
-        var content;
-    })
+  $('form').validate({
+    errorElement : 'span',
+    rules:{
+      user_id:"required",
+      date:"required",
+      no:"required",
+      invest_type:"required",
+      regist_share:{
+        required:true,
+        number:true
+      },
+      balance_share:{
+        required:true,
+        number:true
+      },
+      dividend_share:{
+        required:true,
+        number:true
+      },
+      bonus_share:{
+        required:true,
+        number:true
+      }
+    }
+  });
 });
 </script>

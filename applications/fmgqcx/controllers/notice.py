@@ -7,7 +7,8 @@ def index():
                                                            db.notice.title,
                                                            db.notice.pub_time,
                                                            db.auth_user.last_name,
-                                                           db.auth_user.first_name)
+                                                           db.auth_user.first_name,
+                                                           orderby = ~db.notice.pub_time)
     return dict(rows=result, is_admin=is_admin)
 
 @auth.requires_login()
